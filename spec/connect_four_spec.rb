@@ -64,19 +64,30 @@ describe "#valid_choice" do
 			expect(valid_choice('one', 'r', game_board)).to eql(nil)
 		end
 	end
+
+	context "when given the word 'save'" do 
+		it "returns 'save'" do 
+			expect(valid_choice('save', 'r', game_board)).to eql('save')
+		end
+	end
 end
 
 describe "#winning_move?" do 
 	let(:game_board) {GameBoard.new}
-	context "when a move is made that wins the game" do 
-		it "returns true" do 
-			expect(winning_move?()).to eql(true)
+	context "when a move is made that does not win the game" do 
+		it "returns false" do 
+			game_board.add_token('r', 1)
+			expect(winning_move?(game_board, 1)).to eql(false)
 		end
 	end
 
-	context "when a move is made that does not win the game" do 
-		it "returns false" do 
-			expect(winning_move?()).to eql(false)
+	context "when a move is made that wins the game" do 
+		it "returns true" do 
+			game_board.add_token('r', 1)
+			game_board.add_token('r', 2)
+			game_board.add_token('r', 3)
+			game_board.add_token('r', 4)
+			expect(winning_move?(game_board, 4)).to eql(true)
 		end
 	end
 end

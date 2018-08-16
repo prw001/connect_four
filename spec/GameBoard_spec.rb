@@ -89,6 +89,28 @@ describe GameBoard do
 		end
 	end
 
+	describe "get_save_data" do 
+		context "when save request is made" do 
+			context "when no moves have been made" do 
+				it "returns empty game data" do 
+					expect(game_board.get_save_data).to eql("[[[],[],[],[],[],[],[]],1,42]")
+				end
+			end
+
+			context "when moves have been made" do 
+				it "returns relevant game data" do 
+					game_board.add_token('r', 1)
+					game_board.add_token('b', 1)
+					game_board.add_token('r', 3)
+					game_board.add_token('b', 7)
+					game_board.player_turn = 1
+					game_board.turns_remaining = 38
+					expect(game_board.get_save_data).to eql("[[[\"r\",\"b\"],[],[\"r\"],[],[],[],[\"b\"]],1,38]")
+				end
+			end
+		end
+	end
+
 	describe "#update_turns" do 
 		context "when player 1's turn ends" do 
 			it "switches to player 2's turn" do 
@@ -104,8 +126,8 @@ describe GameBoard do
 			end
 		end
 
-		context "when starting with 42 turns" do 
-			it "decrements the number of remaining turns" do 
+		context "when starting with n turns" do 
+			it "decrements by one the number of remaining turns" do 
 				game_board.turns_remaining = 42
 				game_board.update_turns
 				expect(game_board.turns_remaining).to eql(41)

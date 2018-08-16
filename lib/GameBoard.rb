@@ -1,3 +1,6 @@
+require "./colorize.rb" #Remove relative directory signifier ('./') for running rspec tests, include it to play game
+require "JSON"
+
 class GameBoard
 	attr_reader :columns
 	attr_accessor :player_turn
@@ -22,6 +25,10 @@ class GameBoard
 			@columns[column] << color
 			column + 1
 		end
+	end
+
+	def get_save_data
+		data = JSON.generate [@columns, @player_turn, @turns_remaining]
 	end
 
 	def update_turns
@@ -54,6 +61,33 @@ class GameBoard
 		else
 			return '.' #placeholder
 		end
+	end
+
+	def display
+		row = 5
+		column = 0
+		top = "┏━━━━━━━━━━━━━━━┓\n".yellow
+		bottom = "┗━━━━━━━━━━━━━━━┛\n".yellow + "+ 1 2 3 4 5 6 7 +\n".green
+		rows = ""
+		while row >= 0
+			rows << "┃ ".yellow
+			while column < 7
+				color = get_slot_value(column, row)
+				if color == "r"
+					rows << "◉ ".red
+				elsif color == 'b'
+					rows << "◉ ".blue
+				else
+					rows << "◯ ".yellow
+				end
+				column += 1
+			end
+			rows << "┃\n".yellow
+			row -= 1
+			column = 0
+		end
+		board = top + rows + bottom
+		puts board
 	end
 
 	def collect_horizontal_sequence(column)
