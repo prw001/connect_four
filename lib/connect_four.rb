@@ -91,7 +91,7 @@ def play(game)
 		move = turn(game)
 		if move != 'quit' && move != 'save'
 			if winning_move?(game, move)
-				puts "Player " + game.player_turn.to_s + " Wins!'\n\n" + "Final Board:\n"
+				puts "Player " + game.player_turn.to_s + " Wins!\n\n" + "Final Board:\n"
 				game.display
 				break
 			else
