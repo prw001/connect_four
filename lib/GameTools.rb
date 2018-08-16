@@ -16,16 +16,6 @@ module GameTools
 		return filename
 	end
 
-	def reconstruct(data)
-		#places data segments back into original data structures where necessary
-		data[1] = (JSON.parse data[1])
-		data[2] = (JSON.parse data[2]).to_h
-		if data[3] == nil #if the user saved without guessing, create a placeholder
-			data << []
-		end
-		return data
-	end
-
 	def parse_data(data)
 		#datastream is split into 4 original parts, separated by semicolon
 		data = JSON.parse data
